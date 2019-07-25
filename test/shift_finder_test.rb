@@ -28,12 +28,7 @@ class ShiftFinderTest < Minitest::Test
     mock_offsets = stub(:generate_offsets => [1, 0, 2, 5])
 
     assert_equal [1, 0, 2, 5], mock_offsets.generate_offsets
-  end
-
-  def test_generate_final_shift
-    mock_shift = mock(shift_by_class: {A: 3, B: 27, C: 73, D: 20})
-
-    assert_equal ({A: 3, B: 27, C: 73, D: 20}), mock_shift.shift_by_class
+    assert_equal [1, 0, 2, 5], @shift_finder.generate_offsets
   end
 
   def test_generate_random_inputs
@@ -43,5 +38,10 @@ class ShiftFinderTest < Minitest::Test
     assert_equal "040895", mock_data.generate_date
   end
 
+  def test_generate_final_shift
+    mock_shift = mock(shift_by_class: {A: 3, B: 27, C: 73, D: 20})
+
+    assert_equal ({A: 3, B: 27, C: 73, D: 20}), mock_shift.shift_by_class
+  end
 
 end
