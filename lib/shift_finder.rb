@@ -27,7 +27,15 @@ class ShiftFinder
 
 
   def generate_offsets
-    last_four = generate_date.split("").map(&:to_i)[-4..-1]
+    date = generate_date
+
+    if date[0] == '0'
+      date_sqr = date[1..-1].to_i ** 2
+    else
+      date_sqr = date.to_i ** 2
+    end
+
+    last_four = date_sqr.to_s.split("").map(&:to_i)[-4..-1]
     offset_a = last_four[0]
     offset_b = last_four[1]
     offset_c = last_four[2]
