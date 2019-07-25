@@ -28,7 +28,6 @@ class ShiftFinderTest < Minitest::Test
     mock_offsets = stub(:generate_offsets => [1, 0, 2, 5])
 
     assert_equal [1, 0, 2, 5], mock_offsets.generate_offsets
-    assert_equal [1, 0, 2, 5], @shift_finder.generate_offsets
   end
 
   def test_generate_random_inputs

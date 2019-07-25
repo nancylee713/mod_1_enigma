@@ -27,7 +27,15 @@ class ShiftFinder
 
 
   def generate_offsets
-    last_four = generate_date.split("").map(&:to_i)[-4..-1]
+    date = generate_date
+
+    if date[0] == '0'
+      date_sqr = date[1..-1].to_i ** 2
+    else
+      date_sqr = date.to_i ** 2
+    end
+
+    last_four = date_sqr.to_s.split("").map(&:to_i)[-4..-1]
     offset_a = last_four[0]
     offset_b = last_four[1]
     offset_c = last_four[2]
@@ -36,12 +44,10 @@ class ShiftFinder
   end
 
   def shift_by_class
-    shift = Hash.new(0)
-    shift[:A] = generate_keys[0] + generate_offsets[0]
-    shift[:B] = generate_keys[1] + generate_offsets[1]
-    shift[:C] = generate_keys[2] + generate_offsets[2]
-    shift[:D] = generate_keys[3] + generate_offsets[3]
-    shift
+    chars = %w[A B C D]
+    shift = []
+    4.times { |i| shift << (generate_keys[i] + generate_offsets[i]) % 27 }
+    Hash[chars.zip(shift)].inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
   end
 
 end
