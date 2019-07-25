@@ -18,9 +18,12 @@ class ShiftFinderTest < Minitest::Test
     assert_equal 27, shift_finder.charset.length
   end
 
-  def test_generate_random_keys
-    random_key = mock(key: "02715")
+  def test_generate_random_inputs
+    random_input= mock(key: "02715", date: "040895")
 
-    assert_equal "02715", random_key.key
+    assert_equal "02715", random_input.key
+    assert_equal "040895", random_input.date
   end
+
+
 end
