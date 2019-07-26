@@ -10,19 +10,6 @@ class ShiftFinderTest < Minitest::Test
     assert_equal 27, @enigma.char_set.length
   end
 
-
-  def test_generate_date
-    assert_equal "260719", @enigma.generate_date
-  end
-
-
-  def test_generate_offsets
-    mock = mock(:date => '260719')
-
-    assert_equal [1, 0, 2, 5], @enigma.generate_offsets("040895")
-    assert_equal [6, 9, 6, 1], @enigma.generate_offsets(mock.date)
-  end
-
   def test_generate_final_shift
     mock = mock(:key => '82639', :date => '260719')
 
