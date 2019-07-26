@@ -46,7 +46,11 @@ class ShiftFinder
   def shift_by_class
     chars = %w[A B C D]
     shift = []
+<<<<<<< Updated upstream
     4.times { |i| shift << (generate_keys[i] + generate_offsets[i]) % 27 }
+=======
+    4.times { |i| shift << ((generate_keys[i] + generate_offsets[i]) % 27)}
+>>>>>>> Stashed changes
     Hash[chars.zip(shift)].inject({}){|memo,(k,v)| memo[k.to_sym] = v; memo}
   end
 
