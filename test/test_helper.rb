@@ -5,4 +5,5 @@ end
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'mocha/minitest'
-require './lib/shift_finder'
+require './modules/shift_finder'
+require './lib/enigma'

@@ -18,11 +18,11 @@ module ShiftFinder
   end
 
   def generate_keys(key = generate_five_digits)
-    temp = []
-    key.split("")
-      .map(&:to_i)
-      .each_cons(2) { |i| temp << i.join.to_i }
-    temp
+      temp = []
+      key.split("")
+        .map(&:to_i)
+        .each_cons(2) { |i| temp << i.join.to_i }
+      temp
   end
 
 
@@ -36,13 +36,15 @@ module ShiftFinder
     date_sqr.to_s.split("").map(&:to_i)[-4..-1]
   end
 
-  def shift_by_class
-    shift = Hash.new(0)
-    shift[:A] = generate_keys[0] + generate_offsets[0]
-    shift[:B] = generate_keys[1] + generate_offsets[1]
-    shift[:C] = generate_keys[2] + generate_offsets[2]
-    shift[:D] = generate_keys[3] + generate_offsets[3]
-    shift
+  def shift_by_class(key, offset)
+    chars = %w[A B C D]
+    chars.map!(&:to_sym)
+    shift = []
+    4.times do |i|
+      shift << ((generate_keys(key)[i] + generate_offsets(offset)[i]) % 27)
+    end
+    # binding.pry
+    Hash[chars.zip(shift)]
   end
 
 end
