@@ -1,40 +1,37 @@
 require './test/test_helper'
-require 'minitest/autorun'
-require 'minitest/pride'
-require './lib/shift_finder'
-require 'mocha/minitest'
 
 class ShiftFinderTest < Minitest::Test
 
   def setup
-    @shift_finder = ShiftFinder.new
-  end
-
-  def test_it_exists
-    assert_instance_of ShiftFinder, @shift_finder
+    @enigma = Enigma.new
   end
 
   def test_attributes
-    assert_equal 27, @shift_finder.charset.length
+    assert_equal 27, @enigma.char_set.length
+  end
+
+  def test_generate_five_digits
+    mock_five = stub(:generate_five_digits => "02715")
+
+    assert_equal "02715", mock_five.generate_five_digits
+  end
+
+  def test_generate_date
+    # need to update today's date
+    assert_equal "260719", @enigma.generate_date
   end
 
   def test_generate_keys
-    mock_keys = stub(:generate_keys => [02, 27, 71, 15])
+    mock = mock(:key => '82639')
 
-    assert_equal [02, 27, 71, 15], mock_keys.generate_keys
+    assert_equal [82, 26, 63, 39], @enigma.generate_keys(mock.key)
+    assert_equal [02, 27, 71, 15], @enigma.generate_keys("02715")
   end
 
   def test_generate_offsets
-    mock_offsets = stub(:generate_offsets => [1, 0, 2, 5])
-
-    assert_equal [1, 0, 2, 5], mock_offsets.generate_offsets
-  end
-
-  def test_generate_random_inputs
-    mock_data = stub(:generate_five_digits => "02715", :generate_date => "040895")
-
-    assert_equal "02715", mock_data.generate_five_digits
-    assert_equal "040895", mock_data.generate_date
+    # need to update today's date
+    assert_equal [1, 0, 2, 5], @enigma.generate_offsets("040895")
+    assert_equal [6, 9, 6, 1], @enigma.generate_offsets
   end
 
   def test_generate_final_shift
