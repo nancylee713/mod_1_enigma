@@ -20,7 +20,6 @@ class ShiftTest < Minitest::Test
 
     assert_equal "02715", shift.key.string
     assert_equal "040895", shift.offset.date
-    assert_equal 27, shift.char_set.length
   end
 
   def test_combine_key_and_offset
