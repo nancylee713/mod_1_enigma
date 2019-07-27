@@ -17,7 +17,7 @@ class EnigmaTest < Minitest::Test
   def test_generate_transposed_chars
     expected = [["k", "r", "u"], ["e", " ", "l"], ["d", "o", "w"], ["e", "h", nil]]
 
-    assert_equal expected, @enigma.generate_transposed_chars("hello world", "02715", "040895")
+    assert_equal expected, @enigma.generate_transposed_chars("hello world", "02715", "040895", "right")
   end
 
   def test_generate_encrypted_string
@@ -75,5 +75,15 @@ class EnigmaTest < Minitest::Test
     }
 
     assert_equal expected, @enigma.encrypt("hello world", mock.key, mock.date)
+  end
+
+  def test_decrypt
+    expected = {
+      decryption: "hello world",
+      key: "02715",
+      date: "040895"
+    }
+
+    assert_equal expected, @enigma.decrypt("keder ohulw", "02715", "040895")
   end
 end
