@@ -86,4 +86,51 @@ class EnigmaTest < Minitest::Test
 
     assert_equal expected, @enigma.decrypt("keder ohulw", "02715", "040895")
   end
+
+  def test_decrypt_with_todays_date
+    mock = stub(:date => "260719")
+
+    expected = {
+      decryption: "hello world",
+      key: "02715",
+      date: "260719"
+    }
+
+    assert_equal expected, @enigma.decrypt("pnhawisdzu ", "02715", mock.date)
+
+    encrypted = @enigma.encrypt("hello world", "02715", mock.date)
+    assert_equal expected, @enigma.decrypt(encrypted[:encryption], "02715", mock.date)
+  end
+
+  def test_decrypt_with_random_key
+    mock = stub(:key => "12345")
+    mock_2 = stub(:key => "123")
+
+    expected = {
+      decryption: "hello world",
+      key: "12345",
+      date: "040895"
+    }
+
+    expected_2 = {
+      decryption: "hello world",
+      key: "00123",
+      date: "040895"
+    }
+
+    assert_equal expected, @enigma.decrypt("uauhawekdhm", mock.key, "040895")
+    assert_equal expected_2, @enigma.decrypt("ifzmpajpsmr", mock_2.key, "040895")
+  end
+
+  def test_decrypt_random_keydate
+    mock = mock(:key => "12345", :date => "260719")
+
+    expected = {
+      decryption: "hello world",
+      key: "12345",
+      date: "260719"
+    }
+
+    assert_equal expected, @enigma.decrypt("zjydfeigiqq", mock.key, mock.date)
+  end
 end
