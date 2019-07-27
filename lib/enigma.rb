@@ -10,7 +10,7 @@ class Enigma
   end
 
   def generate_transposed_chars(string, key, date)
-    @key.string = key
+    @key.string = key.rjust(5, "0")
     @offset.date = date
     shift = Shift.new(@key, @offset)
     temp_arr = shift.arrange_chars_by_shift(string)
@@ -46,7 +46,7 @@ class Enigma
   def encrypt(string, key, date)
    {
       encryption: generate_encrypted_string(string, key, date),
-      key: key,
+      key: key.rjust(5, "0"),
       date: date
     }
   end

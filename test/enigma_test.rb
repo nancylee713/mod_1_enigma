@@ -32,4 +32,48 @@ class EnigmaTest < Minitest::Test
     }
     assert_equal expected, @enigma.encrypt("hello world", "02715", "040895")
   end
+
+  def test_encrypt_with_todays_date
+    mock = mock(:date => "260719")
+
+    expected = {
+      encryption: "pnhawisdzu ",
+      key: "02715",
+      date: "260719"
+    }
+
+    assert_equal expected, @enigma.encrypt("hello world", "02715", mock.date)
+  end
+
+  def test_encrypt_with_random_key
+    mock = mock(:key => "12345")
+    mock_2 = mock(:key => "123")
+
+    expected = {
+      encryption: "uauhawekdhm",
+      key: "12345",
+      date: "040895"
+    }
+
+    expected_2 = {
+      encryption: "ifzmpajpsmr",
+      key: "00123",
+      date: "040895"
+    }
+
+    assert_equal expected, @enigma.encrypt("hello world", mock.key, "040895")
+    assert_equal expected_2, @enigma.encrypt("hello world", mock_2.key, "040895")
+  end
+
+  def test_encrypt_random_keydate
+    mock = mock(:key => "12345", :date => "260719")
+
+    expected = {
+      encryption: "zjydfeigiqq",
+      key: "12345",
+      date: "260719"
+    }
+
+    assert_equal expected, @enigma.encrypt("hello world", mock.key, mock.date)
+  end
 end
