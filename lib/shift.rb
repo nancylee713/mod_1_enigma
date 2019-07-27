@@ -1,10 +1,9 @@
 class Shift
-  attr_reader :key, :offset, :char_set
+  attr_reader :key, :offset
 
   def initialize(key, offset)
     @key = key
     @offset = offset
-    @char_set = ("a".."z").to_a << " "
   end
 
   def combine_key_and_offset
