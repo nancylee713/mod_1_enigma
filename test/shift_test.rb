@@ -2,12 +2,25 @@ require './test/test_helper'
 
 class ShiftTest < Minitest::Test
 
+  def setup
+    @key = Key.new
+    @offset = Offset.new
+    @shift = Shift.new(@key, @offset)
+
+  end
+
   def test_it_exists
-    key = Key.new
-    offset = Offset.new
+    assert_instance_of Shift, @shift
+  end
+
+  def test_attributes
+    key = Key.new("02715")
+    offset = Offset.new("040895")
     shift = Shift.new(key, offset)
 
-    assert_instance_of Shift, shift
+    assert_equal "02715", shift.key.string
+    assert_equal "040895", shift.offset.date
+    assert_equal 27, shift.char_set.length
   end
 
   def test_combine_key_and_offset
@@ -40,5 +53,11 @@ class ShiftTest < Minitest::Test
     # default, mock out key and date obj
     shift_3 = Shift.new(key_default, offset_default)
     assert_equal ({:A=>7, :B=>8, :C=>15, :D=>13}), shift_3.generate_final_shift
+  end
+
+  def test_arrange_chars_by_shift
+    expected = [["h", "o", "r"], ["e", " ", "l"], ["l", "w", "d"], ["l", "o", 0]]
+
+    assert_equal expected, @shift.arrange_chars_by_shift("hello world")
   end
 end
