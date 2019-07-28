@@ -95,7 +95,7 @@ class EnigmaTest < Minitest::Test
   def test_generate_decrypted_string
     assert_equal "hello world", @enigma.generate_decrypted_string("keder ohulw", "02715", "040895")
     assert_equal "012345", @enigma.generate_decrypted_string("012345", "02715", "040895")
-    assert_equal "!_as_IS.", @enigma.generate_decrypted_string("!_tl_ik.", "02715", "040895")
+    assert_equal "!_as_is.", @enigma.generate_decrypted_string("!_tl_ik.", "02715", "040895")
   end
 
   def test_decrypt_with_todays_date
