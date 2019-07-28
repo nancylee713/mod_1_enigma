@@ -40,7 +40,7 @@ class Enigma
     result.join
   end
 
-  def encrypt(string, key, date)
+  def encrypt(string, key=@key.string, date=@offset.date)
    {
       encryption: generate_encrypted_string(string, key, date),
       key: key.rjust(5, "0"),
@@ -58,11 +58,24 @@ class Enigma
     result.join
   end
 
-  def decrypt(string, key, date)
+  def decrypt(string, key=@key.string, date=@offset.date)
    {
       decryption: generate_decrypted_string(string, key, date),
       key: key.rjust(5, "0"),
       date: date
     }
+  end
+
+  def crack(message, date=@offset.date)
+    hint = " end"
+    tag = message[-4..-1]
+    hint_ord = hint.split("").map(&:ord)
+    hint_ord[0] = 97
+    tag_ord = tag.split("").map(&:ord)
+
+    shift_by_letter = hint_ord.zip(tag_ord).map {|x| x[1] - x[0]}
+    offset = @offset.generate_offsets
+    key = shift_by_letter.zip(offset).map{ |e| e[0] - e[1]}
+    # binding.pry
   end
 end
