@@ -18,7 +18,8 @@ class Enigma
 
     hash.each do |k, v|
       temp_arr[v].map! do |char|
-        next if char == 0
+        next char unless @char_set.include?(char)
+
         if direction == 'right'
           @char_set[(@char_set.index(char) + shift.generate_final_shift[k]) % 27]
         elsif direction == 'left'
@@ -31,12 +32,12 @@ class Enigma
 
   def generate_encrypted_string(string, key, date)
     temp_arr = generate_transposed_chars(string, key, date, "right")
-    result = ""
+    result = []
     arr_size = temp_arr.length
     iterator = temp_arr[0].length
 
-    iterator.times { |j| arr_size.times { |i| temp_arr[i][j] == nil ? break : result += temp_arr[i][j] } }
-    result
+    iterator.times { |j| arr_size.times { |i| temp_arr[i][j] == 0 ? break : result << temp_arr[i][j] } }
+    result.join
   end
 
   def encrypt(string, key, date)
@@ -49,12 +50,12 @@ class Enigma
 
   def generate_decrypted_string(string, key, date)
     temp_arr = generate_transposed_chars(string, key, date, "left")
-    result = ""
+    result = []
     arr_size = temp_arr.length
     iterator = temp_arr[0].length
 
-    iterator.times { |j| arr_size.times { |i| temp_arr[i][j] == nil ? break : result += temp_arr[i][j] } }
-    result
+    iterator.times { |j| arr_size.times { |i| temp_arr[i][j] == 0 ? break : result << temp_arr[i][j] } }
+    result.join
   end
 
   def decrypt(string, key, date)
