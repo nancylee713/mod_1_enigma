@@ -13,12 +13,6 @@ class Offset
   end
 
   def generate_offsets
-    if @date[0] == '0'
-      date_sqr = date[1..-1].to_i ** 2
-    else
-      date_sqr = date.to_i ** 2
-    end
-
-    date_sqr.to_s.split("").map(&:to_i)[-4..-1]
+    (date.to_i ** 2).to_s[-4..-1].split("").map(&:to_i)
   end
 end
