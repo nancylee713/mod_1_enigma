@@ -1,10 +1,9 @@
 class Shift
-  attr_reader :key, :offset, :char_set
+  attr_reader :key, :offset
 
   def initialize(key, offset)
     @key = key
     @offset = offset
-    @char_set = ("a".."z").to_a << " "
   end
 
   def combine_key_and_offset
@@ -19,7 +18,7 @@ class Shift
   end
 
   def arrange_chars_by_shift(message)
-    temp_arr = message.split("").each_slice(4).to_a
+    temp_arr = message.downcase.split("").each_slice(4).to_a
     until temp_arr.first.length == temp_arr.last.length
       temp_arr.last.push(0)
     end
