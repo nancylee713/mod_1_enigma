@@ -18,7 +18,7 @@ class Shift
   end
 
   def arrange_chars_by_shift(message)
-    temp_arr = message.split("").each_slice(4).to_a
+    temp_arr = message.downcase.split("").each_slice(4).to_a
     until temp_arr.first.length == temp_arr.last.length
       temp_arr.last.push(0)
     end

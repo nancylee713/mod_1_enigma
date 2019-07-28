@@ -15,13 +15,18 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_generate_transposed_chars
-    expected = [["k", "r", "u"], ["e", " ", "l"], ["d", "o", "w"], ["e", "h", nil]]
+    expected_encrypt = [["k", "r", "u"], ["e", " ", "l"], ["d", "o", "w"], ["e", "h", 0]]
+    expected_decrypt = [["h", "o", "r"], ["e", " ", "l"], ["l", "w", "d"], ["l", "o", 0]]
 
-    assert_equal expected, @enigma.generate_transposed_chars("hello world", "02715", "040895", "right")
+    assert_equal expected_encrypt, @enigma.generate_transposed_chars("hello world", "02715", "040895", "right")
+    assert_equal expected_decrypt, @enigma.generate_transposed_chars("keder ohulw", "02715", "040895", "left")
   end
 
   def test_generate_encrypted_string
     assert_equal "keder ohulw", @enigma.generate_encrypted_string("hello world", "02715", "040895")
+    assert_equal "keder ohulw", @enigma.generate_encrypted_string("HELLO WORLD", "02715", "040895")
+    assert_equal "012345", @enigma.generate_encrypted_string("012345", "02715", "040895")
+    assert_equal "!_tl_ik.", @enigma.generate_encrypted_string("!_as_IS.", "02715", "040895")
   end
 
   def test_encrypt
