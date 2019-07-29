@@ -65,4 +65,39 @@ class Enigma
       date: date
     }
   end
+
+  def find_shift(ciphertext, date)
+    cipher_last_4 = ciphertext[-4..-1].split("")
+    # replace " " with "`", because "`".ord = 96, right before "a"
+    end_pair = "`end".split("").zip(cipher_last_4)
+    msg_shift = ciphertext.length % 4
+    end_pair.rotate!(4 - msg_shift)
+    shift_ord = end_pair.map! { |pair| pair[1].ord - pair[0].ord }
+  end
+
+  def find_shift_offset_pair(ciphertext, date)
+    shift_ord = find_shift(ciphertext, date)
+    offset = Offset.new(date).generate_offsets
+    shift_offset_pair = shift_ord.zip(offset)
+  end
+
+  def find_key(ciphertext, date)
+    find_shift_offset_pair(ciphertext, date).map! do |pair|
+      pair[0] += 27 if pair[0] - pair[1] < 0
+      pair = pair[0] - pair[1]
+    end
+  end
+
+  def stringify_key(ciphertext, date)
+    key = find_key(ciphertext, date).map!(&:to_s)
+    a_key = key[0].rjust(2, "0")
+    c_key = key[2].ljust(2, "0")
+    d_key = key[3]
+    a_key + c_key + d_key
+  end
+
+
+  def crack(ciphertext, date = @offset.date)
+    decrypt(ciphertext, stringify_key(ciphertext, date), date)
+  end
 end

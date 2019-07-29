@@ -92,6 +92,12 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.decrypt("keder ohulw", "02715", "040895")
   end
 
+  def test_generate_decrypted_string
+    assert_equal "hello world", @enigma.generate_decrypted_string("keder ohulw", "02715", "040895")
+    assert_equal "012345", @enigma.generate_decrypted_string("012345", "02715", "040895")
+    assert_equal "!_as_is.", @enigma.generate_decrypted_string("!_tl_ik.", "02715", "040895")
+  end
+
   def test_decrypt_with_todays_date
     mock = stub(:date => "260719")
 
@@ -138,4 +144,46 @@ class EnigmaTest < Minitest::Test
 
     assert_equal expected, @enigma.decrypt("zjydfeigiqq", mock.key, mock.date)
   end
+
+  def test_find_shift
+    ciphertext = "vjqtbeaweqihssi"
+    date = "291018"
+
+    assert_equal [14, 5, 5, 8], @enigma.find_shift(ciphertext, date)
+  end
+
+  def test_find_shift_offset_pair
+    ciphertext = "vjqtbeaweqihssi"
+    date = "291018"
+    expected = [[14, 6], [5, 3], [5, 2], [8, 4]]
+
+    assert_equal expected, @enigma.find_shift_offset_pair(ciphertext, date)
+  end
+
+  def test_find_key
+    ciphertext = "vjqtbeaweqihssi"
+    date = "291018"
+
+    assert_equal [8, 2, 3, 4], @enigma.find_key(ciphertext, date)
+  end
+
+  def test_stringify_key
+    ciphertext = "vjqtbeaweqihssi"
+    date = "291018"
+
+    assert_equal "08304", @enigma.stringify_key(ciphertext, date)
+  end
+
+  def test_crack
+    ciphertext = @enigma.encrypt("hello world end", "08304", "291018")[:encryption]
+
+    expected = {
+      decryption: "hello world end",
+      date: "291018",
+      key: "08304"
+    }
+
+    assert_equal expected, @enigma.crack(ciphertext, "291018")
+  end
+
 end
