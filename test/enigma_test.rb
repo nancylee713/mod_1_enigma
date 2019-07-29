@@ -175,7 +175,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_crack
-    skip
     ciphertext = @enigma.encrypt("hello world end", "08304", "291018")[:encryption]
 
     expected = {
@@ -184,8 +183,7 @@ class EnigmaTest < Minitest::Test
       key: "08304"
     }
 
-    assert_equal "", @enigma.crack(ciphertext, "291018")
+    assert_equal expected, @enigma.crack(ciphertext, "291018")
   end
-
 
 end

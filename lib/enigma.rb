@@ -97,8 +97,7 @@ class Enigma
   end
 
 
-  # def crack(ciphertext, date = @offset.date)
-  #
-  #
-  # end
+  def crack(ciphertext, date = @offset.date)
+    decrypt(ciphertext, stringify_key(ciphertext, date), date)
+  end
 end
