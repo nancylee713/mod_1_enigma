@@ -26,7 +26,7 @@ class ShiftTest < Minitest::Test
     key = Key.new("02715")
     offset = Offset.new("040895")
     shift = Shift.new(key, offset)
-    assert_equal [3, 0, 19, 20], shift.combine_key_and_offset
+    assert_equal [3, 27, 73, 20], shift.combine_key_and_offset
   end
 
   def test_generate_final_shift
@@ -39,19 +39,19 @@ class ShiftTest < Minitest::Test
 
     # both key and date are given
     shift_0 = Shift.new(key, offset)
-    assert_equal ({:A=>3, :B=>0, :C=>19, :D=>20}), shift_0.generate_final_shift
+    assert_equal ({:A=>3, :B=>27, :C=>73, :D=>20}), shift_0.generate_final_shift
 
     # only key is given, mock out date obj
     shift_1 = Shift.new(key, offset_default)
-    assert_equal ({:A=>8, :B=>9, :C=>23, :D=>16}), shift_1.generate_final_shift
+    assert_equal ({:A=>8, :B=>36, :C=>77, :D=>16}), shift_1.generate_final_shift
 
     # only offset is given, mock out key obj
     shift_2 = Shift.new(key_default, offset)
-    assert_equal ({:A=>2, :B=>26, :C=>11, :D=>17}), shift_2.generate_final_shift
+    assert_equal ({:A=>83, :B=>26, :C=>65, :D=>44}), shift_2.generate_final_shift
 
     # default, mock out key and date obj
     shift_3 = Shift.new(key_default, offset_default)
-    assert_equal ({:A=>7, :B=>8, :C=>15, :D=>13}), shift_3.generate_final_shift
+    assert_equal ({:A=>88, :B=>35, :C=>69, :D=>40}), shift_3.generate_final_shift
   end
 
   def test_arrange_chars_by_shift
