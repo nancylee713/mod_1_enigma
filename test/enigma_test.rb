@@ -186,4 +186,25 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.crack(ciphertext, "291018")
   end
 
+  def test_crack_without_date
+
+    encrypted_expected = {
+      :encryption=>"vpuqbketewmesym",
+      :key=>"08304",
+      :date=>"290719"
+    }
+
+    assert_equal encrypted_expected, @enigma.encrypt("hello world end", "08304")
+
+    mock = mock(:date=>"290719")
+
+    crack_expected = {
+      :decryption=>"hello world end",
+      :date=> "290719",
+      :key=> "08304"
+    }
+
+    assert_equal crack_expected, @enigma.crack("vpuqbketewmesym", mock.date)
+  end
+
 end
