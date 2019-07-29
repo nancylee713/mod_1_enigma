@@ -40,7 +40,7 @@ class Enigma
     result.join
   end
 
-  def encrypt(string, key, date)
+  def encrypt(string, key=@key.string, date=@offset.date)
    {
       encryption: generate_encrypted_string(string, key, date),
       key: key.rjust(5, "0"),
