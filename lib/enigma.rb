@@ -88,6 +88,14 @@ class Enigma
     end
   end
 
+  def stringify_key(ciphertext, date)
+    key = find_key(ciphertext, date).map!(&:to_s)
+    a_key = key[0].rjust(2, "0")
+    c_key = key[2].ljust(2, "0")
+    d_key = key[3]
+    a_key + c_key + d_key
+  end
+
 
   # def crack(ciphertext, date = @offset.date)
   #

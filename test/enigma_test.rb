@@ -148,6 +148,7 @@ class EnigmaTest < Minitest::Test
   def test_find_shift
     ciphertext = "vjqtbeaweqihssi"
     date = "291018"
+
     assert_equal [14, 5, 5, 8], @enigma.find_shift(ciphertext, date)
   end
 
@@ -155,7 +156,22 @@ class EnigmaTest < Minitest::Test
     ciphertext = "vjqtbeaweqihssi"
     date = "291018"
     expected = [[14, 6], [5, 3], [5, 2], [8, 4]]
+
     assert_equal expected, @enigma.find_shift_offset_pair(ciphertext, date)
+  end
+
+  def test_find_key
+    ciphertext = "vjqtbeaweqihssi"
+    date = "291018"
+
+    assert_equal [8, 2, 3, 4], @enigma.find_key(ciphertext, date)
+  end
+
+  def test_stringify_key
+    ciphertext = "vjqtbeaweqihssi"
+    date = "291018"
+
+    assert_equal "08304", @enigma.stringify_key(ciphertext, date)
   end
 
   def test_crack
