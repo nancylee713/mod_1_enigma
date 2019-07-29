@@ -9,7 +9,6 @@ class Shift
   def combine_key_and_offset
     pair = @key.split_by_letter.zip(@offset.generate_offsets)
     pair.map(&:sum)
-      .map { |n| n % 27 }
   end
 
   def generate_final_shift
