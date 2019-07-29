@@ -40,7 +40,7 @@ class Enigma
     result.join
   end
 
-  def encrypt(string, key=@key.string, date=@offset.date)
+  def encrypt(string, key, date)
    {
       encryption: generate_encrypted_string(string, key, date),
       key: key.rjust(5, "0"),
@@ -58,7 +58,7 @@ class Enigma
     result.join
   end
 
-  def decrypt(string, key=@key.string, date=@offset.date)
+  def decrypt(string, key, date)
    {
       decryption: generate_decrypted_string(string, key, date),
       key: key.rjust(5, "0"),
@@ -66,16 +66,31 @@ class Enigma
     }
   end
 
-  def crack(message, date=@offset.date)
-    hint = " end"
-    tag = message[-4..-1]
-    hint_ord = hint.split("").map(&:ord)
-    hint_ord[0] = 97
-    tag_ord = tag.split("").map(&:ord)
-
-    shift_by_letter = hint_ord.zip(tag_ord).map {|x| x[1] - x[0]}
-    offset = @offset.generate_offsets
-    key = shift_by_letter.zip(offset).map{ |e| e[0] - e[1]}
-    # binding.pry
+  def find_shift(ciphertext, date)
+    cipher_last_4 = ciphertext[-4..-1].split("")
+    # replace " " with "`", because "`".ord = 96, right before "a"
+    end_pair = "`end".split("").zip(cipher_last_4)
+    msg_shift = ciphertext.length % 4
+    end_pair.rotate!(4 - msg_shift)
+    shift_ord = end_pair.map! { |pair| pair[1].ord - pair[0].ord }
   end
+
+  def find_shift_offset_pair(ciphertext, date)
+    shift_ord = find_shift(ciphertext, date)
+    offset = Offset.new(date).generate_offsets
+    shift_offset_pair = shift_ord.zip(offset)
+  end
+
+  def find_key(ciphertext, date)
+    find_shift_offset_pair(ciphertext, date).map! do |pair|
+      pair[0] += 27 if pair[0] - pair[1] < 0
+      pair = pair[0] - pair[1]
+    end
+  end
+
+
+  # def crack(ciphertext, date = @offset.date)
+  #
+  #
+  # end
 end
