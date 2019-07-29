@@ -24,6 +24,7 @@ class EnigmaTest < Minitest::Test
 
   def test_generate_encrypted_string
     assert_equal "keder ohulw", @enigma.generate_encrypted_string("hello world", "02715", "040895")
+    assert_equal "keder ohulw", @enigma.generate_encrypted_string("hello world", "2715", "040895")
     assert_equal "keder ohulw", @enigma.generate_encrypted_string("HELLO WORLD", "02715", "040895")
     assert_equal "012345", @enigma.generate_encrypted_string("012345", "02715", "040895")
     assert_equal "!_tl_ik.", @enigma.generate_encrypted_string("!_as_IS.", "02715", "040895")
