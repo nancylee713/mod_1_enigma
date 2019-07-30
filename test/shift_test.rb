@@ -55,7 +55,7 @@ class ShiftTest < Minitest::Test
   end
 
   def test_convert_chr_to_ord
-    expected = [[104, 101, 108, 108], [111, 96, 119, 111], [114, 108, 100]]
+    expected = [[104, 101, 108, 108], [111, 32, 119, 111], [114, 108, 100]]
 
     assert_equal expected, @shift.convert_chr_to_ord("hello world")
   end
@@ -65,7 +65,7 @@ class ShiftTest < Minitest::Test
     offset = Offset.new("040895")
     shift = Shift.new(key, offset)
 
-    expected = [[107, 101, 127, 128], [114, 96, 138, 131], [117, 108, 119]]
+    expected = [[107, 101, 127, 128], [114, 32, 138, 131], [117, 108, 119]]
 
     assert_equal expected, shift.apply_shift("hello world")
   end
@@ -75,7 +75,7 @@ class ShiftTest < Minitest::Test
     offset = Offset.new("040895")
     shift = Shift.new(key, offset)
 
-    expected = [[107, 101, 100, 101], [114, 96, 111, 104], [117, 108, 119]]
+    expected = [[107, 101, 100, 101], [114, 32, 111, 104], [117, 108, 119]]
 
     assert_equal expected, shift.rearrange_shift("hello world")
   end
@@ -84,6 +84,6 @@ class ShiftTest < Minitest::Test
     key = Key.new("02715")
     offset = Offset.new("040895")
     shift = Shift.new(key, offset)
-    assert_equal ["kede", "r`oh", "ulw"], shift.revert_ord_to_chr("hello world")
+    assert_equal ["kede", "r oh", "ulw"], shift.revert_ord_to_chr("hello world")
   end
 end

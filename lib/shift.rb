@@ -1,9 +1,10 @@
 class Shift
-  attr_reader :key, :offset
+  attr_reader :key, :offset, :char_set
 
   def initialize(key, offset)
     @key = key
     @offset = offset
+    @char_set = ("a".."z").to_a << " "
   end
 
   def combine_key_and_offset
@@ -18,9 +19,12 @@ class Shift
   end
 
   def convert_chr_to_ord(message)
-    message.gsub(" ", "`")
+    message.downcase
       .scan(/.{1,4}/)
-      .map! { |str| str.split("").map(&:ord) }
+      .map! do |str|
+        str.split("")
+        .map { |char| (char_set.include? char) ? char.ord : char }
+      end
   end
 
   def apply_shift(message)
