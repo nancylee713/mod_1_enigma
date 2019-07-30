@@ -2,7 +2,7 @@ require 'date'
 
 class Offset
 
-  attr_reader :date, :default
+  attr_accessor :date
 
   def initialize(date = Offset.default)
     @date = date

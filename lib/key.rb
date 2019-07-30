@@ -1,6 +1,6 @@
 class Key
 
-  attr_reader :string
+  attr_accessor :string
 
   def initialize(string = Key.default)
     @string = string
