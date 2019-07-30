@@ -41,8 +41,6 @@ class Shift
   def revert_ord_to_chr(message)
     temp = rearrange_shift(message).map do |arr|
       arr.map(&:chr)
-    end.flatten.join
-
-    concat_char = temp.scan(/.{1,4}/)
+    end.flatten.join.scan(/.{1,4}/)
   end
 end
