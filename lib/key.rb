@@ -1,6 +1,6 @@
 class Key
 
-  attr_accessor :string
+  attr_reader :string
 
   def initialize(string = generate_five_digits)
     @string = string
