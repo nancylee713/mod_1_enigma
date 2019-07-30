@@ -1,68 +1,33 @@
 class Enigma
 
-  attr_reader :char_set
+  attr_reader :key, :offset
 
   def initialize
-    @char_set = ("a".."z").to_a << " "
     @key = Key.new
     @offset = Offset.new
-    @shift = Shift.new(@key, @offset)
   end
 
-  def generate_transposed_chars(string, key, date, direction)
-    @key.string = key.rjust(5, "0")
-    @offset.date = date
-    shift = Shift.new(@key, @offset)
-    temp_arr = shift.arrange_chars_by_shift(string)
-    hash = {:A => 0, :B => 1, :C => 2, :D => 3}
+  def encrypt(string, key = @key, offset = @offset)
+    key = Key.new(key.rjust(5, "0"))
+    offset = Offset.new(offset)
+    shift = Shift.new(key, offset)
 
-    hash.each do |k, v|
-      temp_arr[v].map! do |char|
-        next char unless @char_set.include?(char)
-
-        if direction == 'right'
-          @char_set[(@char_set.index(char) + shift.generate_final_shift[k]) % 27]
-        elsif direction == 'left'
-          @char_set[(@char_set.index(char) - shift.generate_final_shift[k]) % 27]
-        end
-      end
-    end
-    temp_arr
-  end
-
-  def generate_encrypted_string(string, key, date)
-    temp_arr = generate_transposed_chars(string, key, date, "right")
-    result = []
-    arr_size = temp_arr.length
-    iterator = temp_arr[0].length
-
-    iterator.times { |j| arr_size.times { |i| temp_arr[i][j] == 0 ? break : result << temp_arr[i][j] } }
-    result.join
-  end
-
-  def encrypt(string, key=@key.string, date=@offset.date)
    {
-      encryption: generate_encrypted_string(string, key, date),
-      key: key.rjust(5, "0"),
-      date: date
+      encryption: shift.shift_chars(string),
+      key: key.string,
+      date: offset.date
     }
   end
 
-  def generate_decrypted_string(string, key, date)
-    temp_arr = generate_transposed_chars(string, key, date, "left")
-    result = []
-    arr_size = temp_arr.length
-    iterator = temp_arr[0].length
+  def decrypt(string, key = @key, offset = @offset)
+    key = Key.new(key.rjust(5, "0"))
+    offset = Offset.new(offset)
+    shift = Shift.new(key, offset)
 
-    iterator.times { |j| arr_size.times { |i| temp_arr[i][j] == 0 ? break : result << temp_arr[i][j] } }
-    result.join
-  end
-
-  def decrypt(string, key, date)
    {
-      decryption: generate_decrypted_string(string, key, date),
-      key: key.rjust(5, "0"),
-      date: date
+      decryption: shift.shift_chars(string, -1),
+      key: key.string,
+      date: offset.date
     }
   end
 
@@ -72,15 +37,14 @@ class Enigma
     end_pair = "`end".split("").zip(cipher_last_4)
     msg_shift = ciphertext.length % 4
     end_pair.rotate!(4 - msg_shift)
-    shift_ord = end_pair.map! do |pair|
+    end_pair.map! do |pair|
       pair[1].ord - pair[0].ord + 27
     end.map {|x| x % 27}
   end
 
   def find_shift_offset_pair(ciphertext, date)
-    shift_ord = find_shift(ciphertext, date)
     offset = Offset.new(date).generate_offsets
-    shift_offset_pair = shift_ord.zip(offset)
+    find_shift(ciphertext, date).zip(offset)
   end
 
   def find_key(ciphertext, date)
