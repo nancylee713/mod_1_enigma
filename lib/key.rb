@@ -2,7 +2,7 @@ class Key
 
   attr_reader :string
 
-  def initialize(string = generate_five_digits)
+  def initialize(string = Key.default)
     @string = string
   end
 
@@ -18,7 +18,7 @@ class Key
     end
   end
 
-  def generate_five_digits
+  def self.default
     (0..9).to_a.shuffle[0..4].join
   end
 

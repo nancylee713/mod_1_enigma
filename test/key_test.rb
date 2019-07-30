@@ -23,10 +23,8 @@ class KeyTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_generate_five_digits
-    key_default = Key.new
-
-    assert_equal 5, key_default.generate_five_digits.length
+  def test_default_that_generates_five_digits
+    assert_equal 5, Key.default.length
   end
 
   def test_split_by_letter
