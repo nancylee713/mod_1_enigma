@@ -16,11 +16,18 @@ class Shift
     Hash[chars.zip(combine_key_and_offset)]
   end
 
-  def arrange_chars_by_shift(message)
-    temp_arr = message.downcase.split("").each_slice(4).to_a
-    until temp_arr.first.length == temp_arr.last.length
-      temp_arr.last.push(0)
+  def convert_chr_to_ord(message)
+    message.sub!(" ", "`")
+    message_ord = message.scan(/.{1,4}/)
+      .map { |str| str.split("").map(&:ord) }
+  end
+
+  def apply_shift(message)
+    convert_chr_to_ord(message).each do |arr|
+      arr[0] += generate_final_shift[:A]
+      arr[1] += generate_final_shift[:B]
+      arr[2] += generate_final_shift[:C]
+      arr[3] += generate_final_shift[:D] unless arr[3] == nil
     end
-    temp_arr.transpose
   end
 end

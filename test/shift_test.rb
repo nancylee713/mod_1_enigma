@@ -54,9 +54,19 @@ class ShiftTest < Minitest::Test
     assert_equal ({:A=>88, :B=>35, :C=>69, :D=>40}), shift_3.generate_final_shift
   end
 
-  def test_arrange_chars_by_shift
-    expected = [["h", "o", "r"], ["e", " ", "l"], ["l", "w", "d"], ["l", "o", 0]]
+  def test_convert_chr_to_ord
+    expected = [[104, 101, 108, 108], [111, 96, 119, 111], [114, 108, 100]]
 
-    assert_equal expected, @shift.arrange_chars_by_shift("hello world")
+    assert_equal expected, @shift.convert_chr_to_ord("hello world")
+  end
+
+  def test_apply_shift
+    key = Key.new("02715")
+    offset = Offset.new("040895")
+    shift = Shift.new(key, offset)
+
+    expected = [[107, 128, 181, 128], [114, 123, 192, 131], [117, 135, 173]]
+
+    assert_equal expected, shift.apply_shift("hello world")
   end
 end
