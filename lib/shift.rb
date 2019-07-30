@@ -34,7 +34,7 @@ class Shift
 
   def rearrange_shift(message)
     apply_shift(message).map do |arr|
-      arr.map { |x| x > 122 ? (x - 122 + 97) : x }
+      arr.map { |x| x > 122 ? (x - 27) : x }
     end
   end
 
