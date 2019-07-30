@@ -2,20 +2,23 @@ class Shift
   attr_reader :key, :offset, :char_set
 
   def initialize(key, offset)
-    @key = key
-    @offset = offset
+    @key = Key.new
+    @offset = Offset.new
     @char_set = ("a".."z").to_a << " "
   end
 
-  def combine_key_and_offset
+  def combine_key_and_offset(key = @key, offset = @offset)
+    @key.string = key
+    @offset.date = offset
+
     pair = @key.split_by_letter.zip(@offset.generate_offsets)
     pair.map(&:sum)
       .map { |x| x % 27 }
   end
 
-  def generate_final_shift
+  def generate_final_shift(key = @key, offset = @offset)
     chars = [:A, :B, :C, :D]
-    Hash[chars.zip(combine_key_and_offset)]
+    Hash[chars.zip(combine_key_and_offset(key, offset))]
   end
 
   def shift_chars(str)
