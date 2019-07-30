@@ -54,37 +54,15 @@ class ShiftTest < Minitest::Test
     assert_equal ({:A=>7, :B=>8, :C=>15, :D=>13}), shift_3.generate_final_shift
   end
 
-  def test_convert_chr_to_ord
-    expected = [[104, 101, 108, 108], [111, 32, 119, 111], [114, 108, 100]]
-
-    assert_equal expected, @shift.convert_chr_to_ord("hello world")
-  end
-
-  def test_apply_shift
-    key = Key.new("02715")
-    offset = Offset.new("040895")
+  def test_shift_chars
+    key = Key.new('02715')
+    offset = Offset.new('040895')
     shift = Shift.new(key, offset)
 
-    expected = [[107, 101, 127, 128], [114, 32, 138, 131], [117, 108, 119]]
+    expected_1 = [107, 101, 127, 127, 114, 32, 138, 114, 117, 127, 119]
+    expected_2 = [107, "1", "2", 121, 111, 111, 130, 52, 122, "!", 130, 134, 111, 100, "."]
 
-    assert_equal expected, shift.apply_shift("hello world")
-  end
-
-  def test_rearrange_shift
-    key = Key.new("02715")
-    offset = Offset.new("040895")
-    shift = Shift.new(key, offset)
-
-    expected = [[107, 101, 100, 101], [114, 32, 111, 104], [117, 108, 119]]
-
-    assert_equal expected, shift.rearrange_shift("hello world")
-  end
-
-  def test_revert_ord_to_chr
-    key = Key.new("02715")
-    offset = Offset.new("040895")
-    shift = Shift.new(key, offset)
-
-    assert_equal "keder ohulw", shift.revert_ord_to_chr("hello world")
+    assert_equal expected_1, shift.shift_chars("hello world")
+    assert_equal expected_2, shift.shift_chars("h12ello w!orld.")
   end
 end

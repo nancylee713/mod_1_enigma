@@ -18,33 +18,34 @@ class Shift
     Hash[chars.zip(combine_key_and_offset)]
   end
 
-  def convert_chr_to_ord(message)
-    message.downcase
-      .scan(/.{1,4}/)
-      .map! do |str|
-        str.split("")
-        .map { |char| (char_set.include? char) ? char.ord : char }
+  def shift_chars(str)
+    str.split("").map do |char|
+      next char unless char_set.include? char
+
+      if str.index(char) % 4 == 0
+        (char.ord + generate_final_shift[:A])
+      elsif str.index(char) % 4 == 1
+        (char.ord + generate_final_shift[:B])
+      elsif str.index(char) % 4 == 2
+        (char.ord + generate_final_shift[:C])
+      elsif str.index(char) % 4 == 3
+        (char.ord + generate_final_shift[:D])
       end
-  end
-
-  def apply_shift(message)
-    convert_chr_to_ord(message).each do |arr|
-      arr[0] += generate_final_shift[:A]
-      arr[1] += generate_final_shift[:B]
-      arr[2] += generate_final_shift[:C]
-      arr[3] += generate_final_shift[:D] unless arr[3] == nil
     end
   end
 
-  def rearrange_shift(message)
-    apply_shift(message).map do |arr|
-      arr.map { |x| x > 122 ? (x - 27) : x }
+  def rotate_chars(str)
+    shift_chars(str).map do |i|
+      next i if i.class == String
+      i > 122 ? (i - 27) : i
     end
   end
 
-  def revert_ord_to_chr(message)
-    rearrange_shift(message).map { |arr| arr.map(&:chr) }
-      .flatten
-      .join
+  def convert_ord_to_chr
+    rotate_chars(str).map do |i|
+      next i if i.class == String
+      i.chr
+    end
   end
+
 end
