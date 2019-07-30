@@ -17,8 +17,6 @@ class KeyTest < Minitest::Test
 
   def test_preprocess_input
     keys = ["2715", 2715, true, "123456", "abcde", ""]
-    error = "Input must be 5-digit long, wrapped in a string."
-
     expected = ["02715", nil, nil, nil, nil, "00000"]
     actual = keys.map { |k| Key.preprocess_input(k) }
 

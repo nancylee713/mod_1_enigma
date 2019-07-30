@@ -58,13 +58,7 @@ class ShiftTest < Minitest::Test
     key = Key.new('02715')
     offset = Offset.new('040895')
     shift = Shift.new(key, offset)
-    original_str_ord = "hello world".split("").map(&:ord)
 
-    expected_0 = [104, 101, 108, 108, 111, 32, 119, 111, 114, 108, 100]
-    expected_1 = [107, 101, 127, 128, 114, 32, 138, 131, 117, 108, 119]
-    expected_2 = [107, "1", "2", 121, 111, 108, 130, 52, 122, "!", 130, 134, 111, 100, "."]
-
-    assert_equal expected_0, original_str_ord
     assert_equal "keder ohulw", shift.shift_chars("hello world")
     assert_equal "keder ohulw", shift.shift_chars("HELLO WORLD")
     assert_equal "k12yolgtz!gkod.", shift.shift_chars("h12ello w!orld.")
