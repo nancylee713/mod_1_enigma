@@ -18,7 +18,7 @@ class OffsetTest < Minitest::Test
     offset = Offset.new("040895")
     assert_equal [1, 0, 2, 5], offset.generate_offsets
 
-    mock = mock(:date => '260719')
+    mock = stub(:date => '260719')
     offset_default = Offset.new(mock.date)
     assert_equal [6, 9, 6, 1], offset_default.generate_offsets
   end
