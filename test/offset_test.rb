@@ -14,6 +14,11 @@ class OffsetTest < Minitest::Test
     assert_equal 6, offset.date.length
   end
 
+  def test_default_that_generates_todays_date
+    expected = Date.today.strftime("%d%m%y")
+    assert_equal expected, Offset.default
+  end
+
   def test_generate_offsets
     offset = Offset.new("040895")
     assert_equal [1, 0, 2, 5], offset.generate_offsets
