@@ -43,8 +43,8 @@ class Shift
   end
 
   def revert_ord_to_chr(message)
-    temp = rearrange_shift(message).map do |arr|
-      arr.map(&:chr)
-    end.flatten.join.scan(/.{1,4}/)
+    rearrange_shift(message).map { |arr| arr.map(&:chr) }
+      .flatten
+      .join
   end
 end

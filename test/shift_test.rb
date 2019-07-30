@@ -84,6 +84,7 @@ class ShiftTest < Minitest::Test
     key = Key.new("02715")
     offset = Offset.new("040895")
     shift = Shift.new(key, offset)
-    assert_equal ["kede", "r oh", "ulw"], shift.revert_ord_to_chr("hello world")
+
+    assert_equal "keder ohulw", shift.revert_ord_to_chr("hello world")
   end
 end
