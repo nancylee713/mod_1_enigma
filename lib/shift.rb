@@ -19,8 +19,9 @@ class Shift
   end
 
   def shift_chars(str)
-    str.downcase.split("")
-      .map.with_index do |val, index|
+    str.downcase
+      .split("")
+      .map!.with_index do |val, index|
         next val unless char_set.include? val
         if index % 4 == 0
           val.ord + generate_final_shift[:A]
@@ -31,23 +32,31 @@ class Shift
         elsif index % 4 == 3
         val.ord + generate_final_shift[:D]
         end
-    end
+      end
   end
 
   def rotate_chars(str)
     shift_chars(str).map do |i|
       next i if i.class == String
-      i > 123 ? (i - 123 + 96) : i
+
+      if i.between?(97, 122)
+        i
+      elsif i < 97
+        i + 64
+      elsif i > 122
+        i - 123 + 96
+      end
     end
+
   end
 
   def convert_ord_to_chr(str)
-    encrypted = rotate_chars(str).map do |i|
+    result = rotate_chars(str).map do |i|
       next i if i.class == String
       i.chr
-    end
+    end.join.sub("`", " ")
 
-    encrypted.join
+    result
   end
 
 end
