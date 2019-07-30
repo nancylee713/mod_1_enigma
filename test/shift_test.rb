@@ -65,29 +65,8 @@ class ShiftTest < Minitest::Test
     expected_2 = [107, "1", "2", 121, 111, 108, 130, 52, 122, "!", 130, 134, 111, 100, "."]
 
     assert_equal expected_0, original_str_ord
-    assert_equal expected_1, shift.shift_chars("hello world")
-    assert_equal expected_1, shift.shift_chars("HELLO WORLD")
-    assert_equal expected_2, shift.shift_chars("h12ello w!orld.")
-  end
-
-  def test_rotate_chars
-    key = Key.new('02715')
-    offset = Offset.new('040895')
-    shift = Shift.new(key, offset)
-
-    expected_1 = [107, 101, 100, 101, 114, 96, 111, 104, 117, 108, 119]
-    expected_2 = [107, "1", "2", 121, 111, 108, 103, 116, 122, "!", 103, 107, 111, 100, "."]
-
-    assert_equal expected_1, shift.rotate_chars("hello world")
-    assert_equal expected_2, shift.rotate_chars("h12ello w!orld.")
-  end
-
-  def test_convert_ord_to_chr
-    key = Key.new('02715')
-    offset = Offset.new('040895')
-    shift = Shift.new(key, offset)
-
-    assert_equal "keder ohulw", shift.convert_ord_to_chr("hello world")
-    assert_equal "k12yolgtz!gkod.", shift.convert_ord_to_chr("h12ello w!orld.")
+    assert_equal "keder ohulw", shift.shift_chars("hello world")
+    assert_equal "keder ohulw", shift.shift_chars("HELLO WORLD")
+    assert_equal "k12yolgtz!gkod.", shift.shift_chars("h12ello w!orld.")
   end
 end

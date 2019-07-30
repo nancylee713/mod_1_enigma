@@ -18,45 +18,23 @@ class Shift
     Hash[chars.zip(combine_key_and_offset)]
   end
 
-  def shift_chars(str)
+  def shift_chars(str, dir = 1)
     str.downcase
       .split("")
       .map!.with_index do |val, index|
         next val unless char_set.include? val
+
+        rotated_set = char_set.rotate(char_set.index(val))
+
         if index % 4 == 0
-          val.ord + generate_final_shift[:A]
+          rotated_set[generate_final_shift[:A] * dir]
         elsif index % 4 == 1
-          val.ord + generate_final_shift[:B]
+          rotated_set[generate_final_shift[:B] * dir]
         elsif index % 4 == 2
-        val.ord + generate_final_shift[:C]
+          rotated_set[generate_final_shift[:C] * dir]
         elsif index % 4 == 3
-        val.ord + generate_final_shift[:D]
+          rotated_set[generate_final_shift[:D] * dir]
         end
-      end
+      end.join
   end
-
-  def rotate_chars(str)
-    shift_chars(str).map do |i|
-      next i if i.class == String
-
-      if i.between?(97, 122)
-        i
-      elsif i < 97
-        i + 64
-      elsif i > 122
-        i - 123 + 96
-      end
-    end
-
-  end
-
-  def convert_ord_to_chr(str)
-    result = rotate_chars(str).map do |i|
-      next i if i.class == String
-      i.chr
-    end.join.sub("`", " ")
-
-    result
-  end
-
 end
