@@ -24,13 +24,14 @@ class KeyTest < Minitest::Test
   end
 
   def test_is_five
-    key_padded = Key.new("123")
+    key_short = Key.new("123")
+    refute key_short.is_five?
 
-    assert key_padded.is_five?
-    assert_equal "00123", key_padded.string
+    key_short.pad_zero
+    assert key_short.is_five?
+    assert_equal "00123", key_short.string
 
     key_long = Key.new("123456")
-
     refute key_long.is_five?
   end
 

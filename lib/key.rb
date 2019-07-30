@@ -3,7 +3,7 @@ class Key
   attr_accessor :string
 
   def initialize(string = generate_five_digits)
-    @string = string.rjust(5, "0")
+    @string = string
   end
 
   def all_digits?
@@ -14,12 +14,16 @@ class Key
     @string.count("0-9") == 5
   end
 
+  def pad_zero
+    @string = @string.rjust(5, "0") unless is_five?
+  end
 
   def generate_five_digits
     (0..9).to_a.shuffle[0..4].join
   end
 
   def split_by_letter
+    pad_zero
     temp = []
     @string.split("")
       .map(&:to_i)
