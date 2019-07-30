@@ -5,29 +5,28 @@ class Enigma
   def initialize
     @key = Key.new
     @offset = Offset.new
+    @shift = Shift.new(@key, @offset)
   end
 
-  def encrypt(string, key = @key, offset = @offset)
-    key = Key.new(key.rjust(5, "0"))
-    offset = Offset.new(offset)
-    shift = Shift.new(key, offset)
+  def encrypt(string, key = Key.default, date = Offset.default)
+    @key.string = key.rjust(5, "0")
+    @offset.date = date
 
    {
-      encryption: shift.shift_chars(string),
-      key: key.string,
-      date: offset.date
+      encryption: @shift.shift_chars(string),
+      key: @key.string,
+      date: @offset.date
     }
   end
 
-  def decrypt(string, key = @key, offset = @offset)
-    key = Key.new(key.rjust(5, "0"))
-    offset = Offset.new(offset)
-    shift = Shift.new(key, offset)
+  def decrypt(string, key = Key.default, date = Offset.default)
+    @key.string = key.rjust(5, "0")
+    @offset.date = date
 
    {
-      decryption: shift.shift_chars(string, -1),
-      key: key.string,
-      date: offset.date
+      decryption: @shift.shift_chars(string, -1),
+      key: @key.string,
+      date: @offset.date
     }
   end
 

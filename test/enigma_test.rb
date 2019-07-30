@@ -42,6 +42,7 @@ class EnigmaTest < Minitest::Test
     }
 
     assert_equal expected, @enigma.encrypt("hello world", "02715", mock.date)
+    # assert_equal expected, @enigma.encrypt("hello world", "02715")
   end
 
   def test_encrypt_with_random_key
