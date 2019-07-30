@@ -5,9 +5,9 @@ encrypted = handle.read
 handle.close
 
 enigma = Enigma.new
-key = "82648"
-date = "240818"
-decrypted_text = enigma.decrypt(encrypted, key, date)[:decryption]
+decrypted_text = enigma.decrypt(encrypted, "82648", "240818")[:decryption]
+key = enigma.decrypt(encrypted, "82648", "240818")[:key]
+date = enigma.decrypt(encrypted, "82648", "240818")[:date]
 
 writer = File.open(ARGV[1], "w")
 writer.write(decrypted_text)

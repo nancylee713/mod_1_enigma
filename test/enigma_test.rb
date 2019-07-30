@@ -180,7 +180,9 @@ class EnigmaTest < Minitest::Test
     ciphertext = "vjqtbeaweqihssi"
     date = "291018"
 
-    assert_equal [8, 2, 3, 4], @enigma.find_key(ciphertext, date)
+    expected = [["08", "02"], ["02", "03"], ["03", "04"]]
+
+    assert_equal expected, @enigma.find_key_pair(ciphertext, date)
   end
 
   def test_stringify_key
@@ -193,7 +195,7 @@ class EnigmaTest < Minitest::Test
 
   def test_crack
     # skip
-    ciphertext = @enigma.encrypt("hello world end", "08304", "291018")[:encryption]
+    cipher = @enigma.encrypt("hello world end", "08304", "291018")[:encryption]
 
     expected = {
       decryption: "hello world end",
@@ -201,20 +203,20 @@ class EnigmaTest < Minitest::Test
       key: "08304"
     }
 
-    assert_equal expected, @enigma.crack(ciphertext, "291018")
+    assert_equal expected, @enigma.crack(cipher, "291018")
   end
 
   def test_crack_without_date
     # skip
     mock = stub(:date=>"290719")
 
-    encrypted_expected = {
+    expected = {
       :encryption=>"vpuqbketewmesym",
       :key=>"08304",
       :date=>"290719"
     }
 
-    assert_equal encrypted_expected, @enigma.encrypt("hello world end", "08304", mock.date)
+    assert_equal expected, @enigma.encrypt("hello world end", "08304", mock.date)
 
     crack_expected = {
       :decryption=>"hello world end",
