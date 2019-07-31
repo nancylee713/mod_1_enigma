@@ -23,7 +23,7 @@ class Encrypt
     puts "Where do you want to save this encrypted file? \n>"
     output_path = gets.chomp()
 
-    write_encrypt(output_path, encrypt_hash)
+    write(output_path, encrypt_hash, :encryption)
   end
 end
 

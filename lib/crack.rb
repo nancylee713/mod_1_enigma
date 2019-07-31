@@ -19,7 +19,7 @@ class Crack
     puts "Where do you want to save this cracked file? \n>"
     output_path = gets.chomp()
 
-    write_crack(output_path, crack_hash)
+    write(output_path, crack_hash, :decryption)
   end
 end
 
