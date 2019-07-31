@@ -3,12 +3,6 @@ require './test/test_helper'
 class Decrypt
   include FileHandler
 
-  def setup
-    @enigma = Enigma.new
-    @key = Key.default
-    @date= Offset.default
-  end
-
   def start
     puts "=" * 33
     puts "Welcome to Enigma!"
@@ -19,9 +13,11 @@ class Decrypt
     key = gets.chomp()
 
     puts "Press r to generate today's date OR Provide a date in DDMMYY format (ex: 240818)\n>"
-    gets.chomp() == 'r' ? (date = @date) : (date = gets.chomp())
+    date = gets.chomp()
+    date == 'r' ? (date = Offset.default) : date
 
-    decrypt_hash = @enigma.decrypt(message, key, date)
+    enigma = Enigma.new
+    decrypt_hash = enigma.decrypt(message, key, date)
 
     puts "Where do you want to save this decrypted file? \n>"
     output_path = gets.chomp()
@@ -31,5 +27,4 @@ class Decrypt
 end
 
 enigma_decryptor = Decrypt.new()
-enigma_decryptor.setup
 enigma_decryptor.start
