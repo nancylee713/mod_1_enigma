@@ -2,20 +2,23 @@ class Key
 
   attr_accessor :string
 
-  def initialize(string = generate_five_digits)
-    @string = string.rjust(5, "0")
+  def initialize(string = Key.default)
+    @string = string
   end
 
-  def all_digits?
-    @string.scan(/\D/).empty?
+  def self.preprocess_input(string)
+    if string.class == String
+      if string.scan(/\D/).empty? && (string.length < 5)
+        string.rjust(5, "0")
+      else
+        puts "Input must be 5-digit long, wrapped in a string."
+      end
+    else
+      puts "Input must be 5-digit long, wrapped in a string."
+    end
   end
 
-  def is_five?
-    @string.count("0-9") == 5
-  end
-
-
-  def generate_five_digits
+  def self.default
     (0..9).to_a.shuffle[0..4].join
   end
 

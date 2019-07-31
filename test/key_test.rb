@@ -15,29 +15,16 @@ class KeyTest < Minitest::Test
     assert_equal 5, key.string.length
   end
 
-  def test_all_digits
-    key_valid = Key.new("11111")
-    key_invalid = Key.new("hello")
+  def test_preprocess_input
+    keys = ["2715", 2715, true, "123456", "abcde", ""]
+    expected = ["02715", nil, nil, nil, nil, "00000"]
+    actual = keys.map { |k| Key.preprocess_input(k) }
 
-    assert key_valid.all_digits?
-    refute key_invalid.all_digits?
+    assert_equal expected, actual
   end
 
-  def test_is_five
-    key_padded = Key.new("123")
-
-    assert key_padded.is_five?
-    assert_equal "00123", key_padded.string
-
-    key_long = Key.new("123456")
-
-    refute key_long.is_five?
-  end
-
-  def test_generate_five_digits
-    key_default = Key.new
-
-    assert_equal 5, key_default.generate_five_digits.length
+  def test_default_that_generates_five_digits
+    assert_equal 5, Key.default.length
   end
 
   def test_split_by_letter

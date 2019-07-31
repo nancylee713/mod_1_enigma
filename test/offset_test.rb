@@ -14,19 +14,16 @@ class OffsetTest < Minitest::Test
     assert_equal 6, offset.date.length
   end
 
-  def test_generate_date
-    mock = mock(:date => '260719')
-    offset_default = Offset.new(mock.date)
-
-    assert_equal "260719", offset_default.date
+  def test_default_that_generates_todays_date
+    expected = Date.today.strftime("%d%m%y")
+    assert_equal expected, Offset.default
   end
 
   def test_generate_offsets
     offset = Offset.new("040895")
     assert_equal [1, 0, 2, 5], offset.generate_offsets
 
-
-    mock = mock(:date => '260719')
+    mock = stub(:date => '260719')
     offset_default = Offset.new(mock.date)
     assert_equal [6, 9, 6, 1], offset_default.generate_offsets
   end

@@ -4,15 +4,15 @@ class Offset
 
   attr_accessor :date
 
-  def initialize(date = generate_date)
+  def initialize(date = Offset.default)
     @date = date
   end
 
-  def generate_date
+  def self.default
     Date.today.strftime("%d%m%y")
   end
 
   def generate_offsets
-    (date.to_i ** 2).to_s[-4..-1].split("").map(&:to_i)
+    (@date.to_i ** 2).to_s[-4..-1].split("").map(&:to_i)
   end
 end
