@@ -22,4 +22,12 @@ module FileHandler
 
     puts "Created #{output_path} with the key #{info[:key]} and date #{info[:date]}"
   end
+
+  def write_crack(output_path, info)
+    writer = File.open(output_path, "w")
+    writer.write(info[:decryption])
+    writer.close
+
+    puts "Created #{output_path} with the key #{info[:key]} and date #{info[:date]}"
+  end
 end
