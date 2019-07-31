@@ -119,33 +119,13 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, @enigma.decrypt(encrypted[:encryption], "02715", mock.date)
   end
 
-  def test_find_shift
-    assert_equal [14, 5, 5, 8], @enigma.find_shift(@ciphertext, @date)
-  end
-
-  def test_find_shift_offset_pair
-    expected = [[14, 6], [5, 3], [5, 2], [8, 4]]
-
-    assert_equal expected, @enigma.find_shift_offset_pair(@ciphertext, @date)
-  end
-
-  def test_find_key
-    expected = [["08", "02"], ["02", "03"], ["03", "04"]]
-
-    assert_equal expected, @enigma.find_key_pair(@ciphertext, @date)
-  end
-
-  def test_stringify_key
-    assert_equal "08304", @enigma.stringify_key(@ciphertext, @date)
-  end
-
   def test_crack
     cipher = @enigma.encrypt("hello world end", "08304", "291018")[:encryption]
 
     expected = {
       decryption: "hello world end",
       date: "291018",
-      key: "08304"
+      :shift_size => {:A=>14, :B=>5, :C=>5, :D=>8}
     }
 
     assert_equal expected, @enigma.crack(cipher, "291018")
@@ -165,7 +145,7 @@ class EnigmaTest < Minitest::Test
     crack_expected = {
       :decryption=>"hello world end",
       :date=> "290719",
-      :key=> "08304"
+      :shift_size => {:A=>14, :B=>11, :C=>9, :D=>5}
     }
 
     assert_equal crack_expected, @enigma.crack("vpuqbketewmesym", mock.date)
