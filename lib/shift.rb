@@ -1,4 +1,8 @@
+require './modules/shift_helper'
+
 class Shift
+  include ShiftHelper
+
   attr_reader :key, :offset, :char_set
 
   def initialize(key = Key.new, offset = Offset.new)
@@ -14,11 +18,10 @@ class Shift
   end
 
   def generate_final_shift
-    chars = [:A, :B, :C, :D]
-    Hash[chars.zip(combine_key_and_offset)]
+    generate_hash_with_four_keys(combine_key_and_offset)
   end
 
-  def shift_chars(str, dir = 1)
+  def shift_chars(str, shift_size, dir = 1)
     str.downcase
       .split("")
       .map!.with_index do |val, index|
@@ -27,13 +30,13 @@ class Shift
         rotated_set = char_set.rotate(char_set.index(val))
 
         if index % 4 == 0
-          rotated_set[generate_final_shift[:A] * dir]
+          rotated_set[shift_size[:A] * dir]
         elsif index % 4 == 1
-          rotated_set[generate_final_shift[:B] * dir]
+          rotated_set[shift_size[:B] * dir]
         elsif index % 4 == 2
-          rotated_set[generate_final_shift[:C] * dir]
+          rotated_set[shift_size[:C] * dir]
         elsif index % 4 == 3
-          rotated_set[generate_final_shift[:D] * dir]
+          rotated_set[shift_size[:D] * dir]
         end
       end.join
   end

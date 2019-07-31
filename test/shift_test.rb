@@ -58,9 +58,10 @@ class ShiftTest < Minitest::Test
     key = Key.new('02715')
     offset = Offset.new('040895')
     shift = Shift.new(key, offset)
+    shift_size = shift.generate_final_shift
 
-    assert_equal "keder ohulw", shift.shift_chars("hello world")
-    assert_equal "keder ohulw", shift.shift_chars("HELLO WORLD")
-    assert_equal "k12yolgtz!gkod.", shift.shift_chars("h12ello w!orld.")
+    assert_equal "keder ohulw", shift.shift_chars("hello world", shift_size)
+    assert_equal "keder ohulw", shift.shift_chars("HELLO WORLD", shift_size)
+    assert_equal "k12yolgtz!gkod.", shift.shift_chars("h12ello w!orld.", shift_size)
   end
 end
