@@ -22,7 +22,7 @@ class Decrypt
     puts "Where do you want to save this decrypted file? \n>"
     output_path = gets.chomp()
 
-    write_decrypt(output_path, decrypt_hash)
+    write(output_path, decrypt_hash, :decryption)
   end
 end
 
