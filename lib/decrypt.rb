@@ -1,16 +1,33 @@
 require './test/test_helper'
 
-handle = File.open(ARGV[0], "r")
-encrypted = handle.read
-handle.close
+class Decrypt
+  include FileHandler
 
-enigma = Enigma.new
-decrypted_text = enigma.decrypt(encrypted, "82648", "240818")[:decryption]
-key = enigma.decrypt(encrypted, "82648", "240818")[:key]
-date = enigma.decrypt(encrypted, "82648", "240818")[:date]
+  def setup
+    @enigma = Enigma.new
+  end
 
-writer = File.open(ARGV[1], "w")
-writer.write(decrypted_text)
-writer.close
+  def start
+    puts "=" * 33
+    puts "Welcome to Enigma!"
+    puts "Please specify the file path of a text file to decrypt \n>"
+    message = read(gets.chomp())
 
-puts "Created #{ARGV[1]} with the key #{key} and date #{date}"
+    puts "Provide a key that is 5 digit long (ex: 82648) \n>"
+    key = gets.chomp()
+
+    puts "Provide a date in DDMMYY format (ex: 240818)\n>"
+    date = gets.chomp()
+
+    decrypt_hash = @enigma.decrypt(message, key, date)
+
+    puts "Where do you want to save this decrypted file? \n>"
+    output_path = gets.chomp()
+
+    write_decrypt(output_path, decrypt_hash)
+  end
+end
+
+enigma_decryptor = Decrypt.new()
+enigma_decryptor.setup
+enigma_decryptor.start
