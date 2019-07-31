@@ -4,6 +4,8 @@ class EnigmaTest < Minitest::Test
 
   def setup
     @enigma = Enigma.new
+    @ciphertext = "vjqtbeaweqihssi"
+    @date = "291018"
   end
 
   def test_it_exists
@@ -32,7 +34,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_encrypt_with_todays_date
-    # skip
     mock = mock(:date => "260719")
 
     expected = {
@@ -42,11 +43,9 @@ class EnigmaTest < Minitest::Test
     }
 
     assert_equal expected, @enigma.encrypt("hello world", "02715", mock.date)
-    # assert_equal expected, @enigma.encrypt("hello world", "02715")
   end
 
   def test_encrypt_with_random_key
-    # skip
     mock = mock(:key => "12345")
     mock_2 = mock(:key => "123")
 
@@ -68,7 +67,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_encrypt_random_keydate
-    # skip
     mock = mock(:key => "12345", :date => "260719")
 
     expected = {
@@ -81,7 +79,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_decrypt
-    # skip
     expected = {
       decryption: "hello world",
       key: "02715",
@@ -98,7 +95,6 @@ class EnigmaTest < Minitest::Test
 
     assert_equal expected_2, @enigma.decrypt("012345", "02715", "040895")
 
-
     expected_3 = {
       decryption: "!_as_is.",
       key: "02715",
@@ -109,7 +105,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_decrypt_with_todays_date
-    # skip
     mock = stub(:date => "260719")
 
     expected = {
@@ -125,42 +120,26 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_find_shift
-    # skip
-    ciphertext = "vjqtbeaweqihssi"
-    date = "291018"
-
-    assert_equal [14, 5, 5, 8], @enigma.find_shift(ciphertext, date)
+    assert_equal [14, 5, 5, 8], @enigma.find_shift(@ciphertext, @date)
   end
 
   def test_find_shift_offset_pair
-    # skip
-    ciphertext = "vjqtbeaweqihssi"
-    date = "291018"
     expected = [[14, 6], [5, 3], [5, 2], [8, 4]]
 
-    assert_equal expected, @enigma.find_shift_offset_pair(ciphertext, date)
+    assert_equal expected, @enigma.find_shift_offset_pair(@ciphertext, @date)
   end
 
   def test_find_key
-    # skip
-    ciphertext = "vjqtbeaweqihssi"
-    date = "291018"
-
     expected = [["08", "02"], ["02", "03"], ["03", "04"]]
 
-    assert_equal expected, @enigma.find_key_pair(ciphertext, date)
+    assert_equal expected, @enigma.find_key_pair(@ciphertext, @date)
   end
 
   def test_stringify_key
-    # skip
-    ciphertext = "vjqtbeaweqihssi"
-    date = "291018"
-
-    assert_equal "08304", @enigma.stringify_key(ciphertext, date)
+    assert_equal "08304", @enigma.stringify_key(@ciphertext, @date)
   end
 
   def test_crack
-    # skip
     cipher = @enigma.encrypt("hello world end", "08304", "291018")[:encryption]
 
     expected = {
@@ -173,7 +152,6 @@ class EnigmaTest < Minitest::Test
   end
 
   def test_crack_without_date
-    # skip
     mock = stub(:date=>"290719")
 
     expected = {
